@@ -54,11 +54,14 @@ def html_view(title):
 
 
 def main():
-    parser = OptionParser(usage='%prog DIRECTORY LESSON')
+    parser = OptionParser(usage='%prog DIRECTORY LESSON TARGET')
     options, args = parser.parse_args()
-    if len(args) < 2 or len(args) > 3:
+    if len(args) < 2 or len(args) > 4:
         parser.error('Incorrect number of arguments.')
     # go through the command line arguments
+    target = '.'
+    if len(args) == 3:
+        target = args[2]
     path = args[0]
     module = args[1]
 
@@ -68,7 +71,7 @@ def main():
         sys.exit(1)
 
     # get the directory from the path
-    dirname = os.path.dirname(path)
+    dirname = os.path.basename(os.path.normpath(path))
 
     # do you want the results on one page or on different pages for each file?
     single_file = True
@@ -89,7 +92,7 @@ def main():
             html_list.append('</body>')
             html_list.append('</html>')
             # write the results for all the files 
-            with open('{0}_{1}.html'.format(dirname, module), 'w') as fp:
+            with open('{0}/{1}_{2}.html'.format(target, dirname, module), 'w') as fp:
                 fp.write(''.join(html_list))
     else:
         for plugin_class in modules[module]:
@@ -110,8 +113,8 @@ def main():
                 html_list.append('</body>')
                 html_list.append('</html>')
                 # write the results for this file
-                with open('{0}results/{1}_{2}.html'.format(
-                        dirname, file, module), 'w') as fp:
+                with open('{0}/{1}results/{2}_{3}.html'.format(
+                        target, dirname, file, module), 'w') as fp:
                     fp.write(''.join(html_list))
 
 if __name__ == '__main__':
