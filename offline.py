@@ -77,7 +77,7 @@ def main():
 
     for plugin_class in modules[module]:
         # returns a dictionary of html strings for each file
-        single = [html_view(module)]
+        single = [html_view('{0} {1}'.format(dirname, module))]
         # build index.html 
         index =['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ']
         index.append('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">')
@@ -100,7 +100,7 @@ def main():
             # html for this file for this module
             single.append(html_results[file])
             # html for multiple files
-            multiple = [html_view(module)]
+            multiple = [html_view('{0} {1}'.format(dirname, module))]
             multiple.append(html_results[file])
             multiple.append('</body>')
             multiple.append('</html>')
