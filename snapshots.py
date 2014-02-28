@@ -19,7 +19,7 @@ htmlwrappers = {'Scripts': scripts.scripts_display,
                 'SpriteChanges': spritechanges.sprite_changes_display}
 
 def main():
-    parser = OptionParser(usage='%prog LESSON [options] DIRECTORY TARGET')
+    parser = OptionParser(usage='%prog MODULE [options] DIRECTORY TARGET')
     parser.add_option('-s', '--student-dir', action="store", type="string", dest="student", default=False,
                       help=('Analyze a directory of a student\'s snapshots for a project.'))
     parser.add_option('-p', '--project-dir', action="store", type="string", dest="project", default=False,
@@ -52,17 +52,33 @@ def main():
     if options.student:
         process_dir(path, target, module)
     elif options.project:
-        for dir in os.listdir(path):
-            dirpath = os.path.join(path, dir)
-            if os.path.isdir(dirpath):
-                process_dir(dirpath, target, module)
+        # make a project folder        
+        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
+        targetproj = os.path.join(target, dirname)
+        if not os.path.exists(targetproj):
+            os.makedirs(targetproj)
+        for student in os.listdir(path):
+            studentpath = os.path.join(path, student)
+            if os.path.isdir(studentpath):
+                process_dir(studentpath, targetproj, module)
     elif options.all:
-        for dir in os.listdir(path):
-            dirpath = os.path.join(path, dir)
-            for d in os.listdir(dirpath):
-                dpath = os.path.join(dirpath, d)
-                if os.path.isdir(dpath):
-                    process_dir(dpath, target, module)
+        # make an all folder
+        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
+        targetall = os.path.join(target, dirname)
+        if not os.path.exists(targetall):
+            os.makedirs(targetall)
+        for project in os.listdir(path):
+            projectpath = os.path.join(path, project)
+            if os.path.isdir(projectpath):
+                # make a project folder
+                projname = '{0}results'.format(project)
+                targetproj = os.path.join(targetall, projname)
+                if not os.path.exists(targetproj):
+                    os.makedirs(targetproj)
+                for student in os.listdir(projectpath):
+                    studentpath = os.path.join(projectpath, student)
+                    if os.path.isdir(studentpath):
+                        process_dir(studentpath, targetproj, module)
 
 # run the module on a student directory
 #(all the snapshots for a student's project submsision)
