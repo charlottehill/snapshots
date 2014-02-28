@@ -9,7 +9,7 @@ import kurt
 import sys
 import os
 
-# to run: ./snapshots option module directory target
+# set of modules you want to run
 modules = {'scripts': [scripts.Scripts],
            'changes': [changes.Changes]}
 
@@ -52,15 +52,17 @@ def main():
     if options.student:
         process_dir(path, target, module)
     elif options.project:
-        for folder in os.listdir(project):
-            if os.path.isdir(folder):
-                process_dir(folder, target, module)
+        for dir in os.listdir(path):
+            dirpath = os.path.join(path, dir)
+            if os.path.isdir(dirpath):
+                process_dir(dirpath, target, module)
     elif options.all:
-        for folder in os.listdir(all):
-            if os.path.isdir(folder):
-                for f in os.listdir(folder):
-                    if os.path.isdir(f):
-                        process_dir(f, target, module)
+        for dir in os.listdir(path):
+            dirpath = os.path.join(path, dir)
+            for d in os.listdir(dirpath):
+                dpath = os.path.join(dirpath, d)
+                if os.path.isdir(dpath):
+                    process_dir(dpath, target, module)
 
 # run the module on a student directory
 #(all the snapshots for a student's project submsision)
