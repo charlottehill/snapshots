@@ -15,6 +15,8 @@ class Scripts(SnapshotPlugin):
 
     def __init__(self):
         super(Scripts, self).__init__()
+        self._modulename = "Scripts"
+        self._description = "Show the scripts for each file."
 
     # returns a dictionary of all the scripts organized by sprite for an oct file
     def get_scripts(self, oct):

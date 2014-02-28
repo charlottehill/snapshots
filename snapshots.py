@@ -3,7 +3,7 @@ from __future__ import print_function
 from kelp.octopi import OctopiPlugin
 from kelp import *
 import scripts
-import changes
+import spritechanges
 from optparse import OptionParser
 import kurt
 import sys
@@ -11,12 +11,12 @@ import os
 
 # set of modules you want to run
 modules = {'scripts': [scripts.Scripts],
-           'changes': [changes.Changes]}
+           'spritechanges': [spritechanges.SpriteChanges]}
 
 
 # 'ClassName': filename.displayfunction
 htmlwrappers = {'Scripts': scripts.scripts_display,
-                'Changes': changes.changes_display}
+                'SpriteChanges': spritechanges.sprite_changes_display}
 
 def main():
     parser = OptionParser(usage='%prog LESSON [options] DIRECTORY TARGET')
@@ -110,7 +110,7 @@ def process_dir(path, target, module):
             # set up html file headers
             html = []
             html.append('\n<html>\n<head>\n<meta charset="utf8">')
-            html.append('\n<h1 style="text-align:center">{0} {1}</h1>\n\n<hr>'.format(dirname, name))
+            html.append('\n<h1 style="text-align:center">{0} {1}</h1>\n\n<hr>'.format(dirname, plugin._modulename))
             # include stylesheet
             html.append('<link rel="stylesheet" type="text/css" ')
             html.append('href="http://octopi.cs.ucsb.edu/analysis/'
@@ -150,7 +150,7 @@ def process_dir(path, target, module):
                 fp.write(''.join(html))
 
             # add a link to the index
-            index.append('\n<br><br><a href="./{0}_{1}.html">{1}</a>'.format(dirname,module))
+            index.append('\n<br><br><a href="./{0}_{1}.html">{2}</a>'.format(dirname,module, plugin._modulename))
             index.append('\n</body>\n</html>')
             with open('{0}/{1}results/index.html'.format(target, dirname), 'a') as fp:
                 fp.write(''.join(index))
