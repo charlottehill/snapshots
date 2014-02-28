@@ -47,7 +47,7 @@ class Scripts(SnapshotPlugin):
         # get the directory name
         dirname = os.path.dirname(path)
         # go through oct files
-       for file in os.listdir(path):
+        for file in os.listdir(path):
             if file.endswith(".oct"):
                 # get file name
                 base = os.path.basename(file)
