@@ -12,10 +12,12 @@ import kurt
 BASE_PATH = './results'
 
 
-class Changes(SnapshotPlugin):
+class SpriteChanges(SnapshotPlugin):
 
     def __init__(self):
-        super(Changes, self).__init__()
+        super(SpriteChanges, self).__init__()
+        self._modulename = "Sprite Changes"
+        self._description = "Highlight sprites whose scripts have changed since the last snapshot"
 
     def analyze(self, path):
         # use the Scripts class to get the scripts
@@ -45,7 +47,7 @@ class Changes(SnapshotPlugin):
 
 
 # Displays sprite names and pictures
-def changes_display(results):
+def sprite_changes_display(results):
     files = results['scripts']
     script_count = results['counter']
     changes = results['changes']
