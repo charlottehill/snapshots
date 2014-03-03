@@ -52,33 +52,52 @@ def main():
     if options.student:
         process_dir(path, target, module)
     elif options.project:
-        # make a project folder        
-        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
-        targetproj = os.path.join(target, dirname)
-        if not os.path.exists(targetproj):
-            os.makedirs(targetproj)
-        for student in os.listdir(path):
-            studentpath = os.path.join(path, student)
-            if os.path.isdir(studentpath):
-                process_dir(studentpath, targetproj, module)
+    	project = os.path.basename(os.path.normpath(path))
+    	process_project(project, path, target, module)
     elif options.all:
         # make an all folder
         dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
-        targetall = os.path.join(target, dirname)
-        if not os.path.exists(targetall):
-            os.makedirs(targetall)
+        target = os.path.join(target, dirname)
+        if not os.path.exists(target):
+            os.makedirs(target)
         for project in os.listdir(path):
             projectpath = os.path.join(path, project)
             if os.path.isdir(projectpath):
-                # make a project folder
-                projname = '{0}results'.format(project)
-                targetproj = os.path.join(targetall, projname)
-                if not os.path.exists(targetproj):
-                    os.makedirs(targetproj)
-                for student in os.listdir(projectpath):
-                    studentpath = os.path.join(projectpath, student)
-                    if os.path.isdir(studentpath):
-                        process_dir(studentpath, targetproj, module)
+                process_project(project, projectpath, target, module)
+
+def process_project(project, path, target, module):
+        # make a project folder
+        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
+        targetproj = os.path.join(target, dirname)
+        # check if directory exists
+        if not os.path.exists(targetproj):
+            os.makedirs(targetproj)
+        # make an index file
+        index_path = '{0}/{1}results/index.html'.format(target, dirname)
+        # check if index exists
+        if not os.path.exists(index_path):
+            # make index page
+            index = []
+            index.append('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '
+                         '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">')
+            index.append('<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">'
+                         '<!-- InstanceBegin template="/Templates/Template.dwt.php" '
+                         'codeOutsideHTMLIsLocked="false" -->')
+            index.append('<head><link href="http://charlottehill.com/analysis/style.css" '
+                         'rel="stylesheet" type="text/css" />')
+            index.append('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />')
+            index.append('<meta name="language" content="en" />')
+            index.append('<title>Octopi Analysis | {0}</title>'.format(project))
+            index.append('\n</head>\n<body>\n<div class="content">')
+            index.append('\n<h1>{0}</h1>'.format(project))
+        for student in os.listdir(path):
+            studentpath = os.path.join(path, student)
+            if os.path.isdir(studentpath):
+                # add link to student folder to index
+                index.append('\n<br><br><a href="{0}/{1}results/">{1}</a>'.format(targetproj, student))
+                process_dir(studentpath, targetproj, module)
+        with open('{0}/index.html'.format(targetproj), 'a') as fp:
+            fp.write(''.join(index))
 
 # run the module on a student directory
 #(all the snapshots for a student's project submsision)
@@ -96,8 +115,8 @@ def process_dir(path, target, module):
         index.append('\n<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">')
         index.append('\n<!-- InstanceBegin template="/Templates/Template.dwt.php" '
                      'codeOutsideHTMLILocked="false" -->')
-        index.append('\n<head>\n<link href="http://octopi.cs.ucsb.edu/analysis/'
-                     'stylesheets/style.css" rel="stylesheet" type="text/css" />')
+        index.append('\n<head>\n<link href="http://charlottehill.com/analysis/'
+                     'style.css" rel="stylesheet" type="text/css" />')
         index.append('\n<meta http-equiv="Content-Type" content="text/html; '
                      'charset=iso-8859-1" />')
         index.append('\n<meta name="language" content="en" />\n')
@@ -129,8 +148,8 @@ def process_dir(path, target, module):
             html.append('\n<h1 style="text-align:center">{0} {1}</h1>\n\n<hr>'.format(dirname, plugin._modulename))
             # include stylesheet
             html.append('<link rel="stylesheet" type="text/css" ')
-            html.append('href="http://octopi.cs.ucsb.edu/analysis/'
-                        'stylesheets/script_style.css" />')
+            html.append('href="http://charlottehill.com/analysis'
+                        'script_style.css" />')
             #Include jQuery
             html.append('\n<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/'
                         'jquery.min.js"></script>')
@@ -155,10 +174,10 @@ def process_dir(path, target, module):
             html_results = htmlwrappers[name](results)
             # print the results in order
             for file in sorted(html_results.iterkeys()):
-                # html for this file for this module 
+                # html for this file for this module
                 html.append(html_results[file])
 
-            # add on the closing html 
+            # add on the closing html
             html.append('\n</body>\n</html>')
 
             # write the results for all the files
