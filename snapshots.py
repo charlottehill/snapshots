@@ -4,6 +4,7 @@ from kelp.octopi import OctopiPlugin
 from kelp import *
 import scripts
 import spritechanges
+import initCheck
 from optparse import OptionParser
 import kurt
 import sys
@@ -11,12 +12,14 @@ import os
 
 # set of modules you want to run
 modules = {'scripts': [scripts.Scripts],
-           'spritechanges': [spritechanges.SpriteChanges]}
+           'spritechanges': [spritechanges.SpriteChanges],
+           'initCheck': [initCheck.InitCheck]}
 
 
 # 'ClassName': filename.displayfunction
 htmlwrappers = {'Scripts': scripts.scripts_display,
-                'SpriteChanges': spritechanges.sprite_changes_display}
+                'SpriteChanges': spritechanges.sprite_changes_display,
+                'InitCheck': initCheck.check_display}
 
 def main():
     parser = OptionParser(usage='%prog MODULE [options] DIRECTORY TARGET')
