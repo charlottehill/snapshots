@@ -21,9 +21,21 @@ class BlockChanges(SnapshotPlugin):
         self._description = "Highlight blocks that have changed since the last snapshot."
 
     def compare(self, old, curr):
+        count = Counter()
+        i = 0
         for script in curr:
             for name, level, block in self.iter_blocks(script):
-                print(name, block.args)
+                r = 0
+                for s in old:
+                    if i*r + r not in count.keys():
+                        count[i*r + r] = 0
+                    print('comparing {0} and {1}'.format(i, r))
+                    for n, l, b in self.iter_blocks(s):
+                        if name == n and block.args == b.args:
+                            count[i*r + r] +=1
+                    r = r + 1
+                    print('score: '.format(count[i*r +r]))
+            i = i + 1
 
     def sprite_compare(self, old, curr):
         scripts = set()
@@ -86,7 +98,7 @@ class BlockChanges(SnapshotPlugin):
                     if counter[sprite] > 0:
                         # if this sprite was in the last file, compare their scripts
                         if sprite in last.keys():
-                            scriptdict[sprite] = self.compare(last[sprite], scripts)
+                            self.compare(last[sprite], scripts)
                         else:
                             # otherwise, mark all of this sprites scripts as changed
                             for script in scripts:
