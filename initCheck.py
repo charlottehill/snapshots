@@ -110,7 +110,7 @@ class InitCheck(SnapshotPlugin):
                 # set up kurt project
                 oct = kurt.Project.load(os.path.abspath(os.path.join(Path, file)))
 
-                # check for unnecessary additional completion of animalRace
+                # check for unnecessary additional completion of scripts in animalRace
                 results[filename] = self.check_finish(oct)
         for filename, output in results.items():
             if len(output) == 0:
