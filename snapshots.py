@@ -157,17 +157,17 @@ def process_dir(path, target, module):
             html.append('\n<h1 style="text-align:center">{0} {1}</h1>\n\n<hr>'.format(dirname, plugin._modulename))
             # include stylesheet
             html.append('<link rel="stylesheet" type="text/css" ')
-            html.append('href="http://charlottehill.com/analysis'
+            html.append('href="http://charlottehill.com/analysis/'
                         'script_style.css" />')
             #Include jQuery
-            html.append('\n<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/'
+            html.append('\n<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/'
                         'jquery.min.js"></script>')
 
             #Include scratchblocks2 files
-            html.append('\n<link rel="stylesheet" href="//charlottehill.com/'
+            html.append('\n<link rel="stylesheet" href="http://charlottehill.com/'
                         'scratchblocks/scratchblocks2.css">')
             html.append('\n<link rel="stylesheet" type="text/css" href="style.css">')
-            html.append('\n<script src="//charlottehill.com/scratchblocks/'
+            html.append('\n<script src="http://charlottehill.com/scratchblocks/'
                         'scratchblocks2.js"></script>')
             #Parse blocks
             html.append('\n<script>\n$(document).ready(function() {')
