@@ -4,7 +4,6 @@ from kelp.octopi import OctopiPlugin
 from kelp import *
 import scripts
 import spritechanges
-import blockchanges
 import initCheck
 import spriteSizeCheck
 import raceInitialization2
@@ -18,7 +17,6 @@ modules = {'scripts': [scripts.Scripts],
            'spritechanges': [spritechanges.SpriteChanges],
            'raceInitialization': [raceInitialization2.raceInitialization],
            'initCheck': [initCheck.InitCheck],
-           'blockchanges': [blockchanges.BlockChanges],
            'spriteSizeCheck':[spriteSizeCheck.SpriteSizeCheck]}
 
 
@@ -27,7 +25,6 @@ htmlwrappers = {'Scripts': scripts.scripts_display,
                 'SpriteChanges': spritechanges.sprite_changes_display,
                 'raceInitialization':raceInitialization2.initialization_display,
                 'InitCheck': initCheck.check_display,
-                'BlockChanges': blockchanges.block_changes_display,
                 'SpriteSizeCheck': spriteSizeCheck.size_display}
 
 def main():
