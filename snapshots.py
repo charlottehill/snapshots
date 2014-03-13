@@ -7,6 +7,7 @@ import spritechanges
 import blockchanges
 import initCheck
 import spriteSizeCheck
+import raceInitialization2
 from optparse import OptionParser
 import kurt
 import sys
@@ -15,23 +16,19 @@ import os
 # set of modules you want to run
 modules = {'scripts': [scripts.Scripts],
            'spritechanges': [spritechanges.SpriteChanges],
+           'raceInitialization': [raceInitialization2.raceInitialization],
            'initCheck': [initCheck.InitCheck],
-<<<<<<< Updated upstream
-           'blockchanges': [blockchanges.BlockChanges]}
-=======
+           'blockchanges': [blockchanges.BlockChanges],
            'spriteSizeCheck':[spriteSizeCheck.SpriteSizeCheck]}
->>>>>>> Stashed changes
 
 
 # 'ClassName': filename.displayfunction
 htmlwrappers = {'Scripts': scripts.scripts_display,
                 'SpriteChanges': spritechanges.sprite_changes_display,
+                'raceInitialization':raceInitialization2.initialization_display,
                 'InitCheck': initCheck.check_display,
-<<<<<<< Updated upstream
-                'BlockChanges': blockchanges.block_changes_display}
-=======
+                'BlockChanges': blockchanges.block_changes_display,
                 'SpriteSizeCheck': spriteSizeCheck.size_display}
->>>>>>> Stashed changes
 
 def main():
     parser = OptionParser(usage='%prog MODULE [options] DIRECTORY TARGET')
