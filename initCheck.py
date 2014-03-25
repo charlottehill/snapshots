@@ -99,7 +99,7 @@ class InitCheck(SnapshotPlugin):
         return results
 
     def analyze (self, Path):
-        results = {}
+        results = []
         dirname = os.path.dirname(Path)
         for file in os.listdir(Path):
             if file.endswith(".oct"):
@@ -111,16 +111,16 @@ class InitCheck(SnapshotPlugin):
                 oct = kurt.Project.load(os.path.abspath(os.path.join(Path, file)))
 
                 # check for unnecessary additional completion of scripts in animalRace
-                results[filename] = self.check_finish(oct)
-        for filename, output in results.items():
-            if len(output) == 0:
-                results[filename] = "Student code does not attempt to move Cat/Rooster to finish"
+                results.append([filename, self.check_finish(oct)])
+        for item in results:
+            if len(item[1]) == 0:
+                item[1] = ["Student code does not attempt to move Cat/Rooster to finish"]
         return results
 def check_display(results):
     output = {}
     count = 1
-    for filename, htmlout in results.items():
-        htmlout = '<h2>' + 'Project #' + str(count) + '</h2>' + '<p>' + str(htmlout) + '</p>'
+    for item in results:
+        htmlout = '<h2>' + 'Project #' + str(count) + '</h2>' + '<p>' + ", ".join(item[1]) + '</p>'
         output[count] = ''.join(htmlout)
         count+=1
     return output
