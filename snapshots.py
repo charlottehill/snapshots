@@ -68,7 +68,7 @@ def main():
     	process_project(project, path, target, module)
     elif options.all:
         # make an all folder
-        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
+        dirname = '{0}'.format(os.path.basename(os.path.normpath(path)))
         target = os.path.join(target, dirname)
         if not os.path.exists(target):
             os.makedirs(target)
@@ -79,13 +79,13 @@ def main():
 
 def process_project(project, path, target, module):
         # make a project folder
-        dirname = '{0}results'.format(os.path.basename(os.path.normpath(path)))
+        dirname = '{0}'.format(os.path.basename(os.path.normpath(path)))
         targetproj = os.path.join(target, dirname)
         # check if directory exists
         if not os.path.exists(targetproj):
             os.makedirs(targetproj)
         # make an index file
-        index_path = '{0}/{1}results/index.html'.format(target, dirname)
+        index_path = '{0}/{1}/index.html'.format(target, dirname)
         # check if index exists
         if not os.path.exists(index_path):
             # make index page
@@ -106,7 +106,7 @@ def process_project(project, path, target, module):
             studentpath = os.path.join(path, student)
             if os.path.isdir(studentpath):
                 # add link to student folder to index
-                index.append('\n<br><br><a href="{0}/{1}results/">{1}</a>'.format(targetproj, student))
+                index.append('\n<br><br><a href="{0}/{1}/">{1}</a>'.format(targetproj, student))
                 process_dir(studentpath, targetproj, module)
         with open('{0}/index.html'.format(targetproj), 'a') as fp:
             fp.write(''.join(index))
@@ -116,10 +116,10 @@ def process_project(project, path, target, module):
 def process_dir(path, target, module):
     dirname = os.path.basename(os.path.normpath(path))
     #check if folder exists
-    if not os.path.exists('{0}/{1}results'.format(target, dirname)):
-        os.makedirs('{0}/{1}results'.format(target, dirname))
+    if not os.path.exists('{0}/{1}'.format(target, dirname)):
+        os.makedirs('{0}/{1}'.format(target, dirname))
     # check if index exists
-    index_path = '{0}/{1}results/index.html'.format(target, dirname)
+    index_path = '{0}/{1}/index.html'.format(target, dirname)
     if not os.path.exists(index_path):
         # make index page
         index =['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ']
@@ -146,7 +146,7 @@ def process_dir(path, target, module):
         name = plugin.__class__.__name__
 
         # check if the module has already been done
-        file_path = '{0}/{1}results/{2}.html'.format(target, dirname, module)
+        file_path = '{0}/{1}/{2}.html'.format(target, dirname, module)
         if not os.path.exists(file_path):
 
             # delete the last two lines of index (\n</body>\n</html>)
@@ -199,7 +199,7 @@ def process_dir(path, target, module):
             # add a link to the index
             index.append('\n<br><a href="./{1}.html">{2}</a>'.format(dirname,module, plugin._modulename))
             index.append('\n</body>\n</html>')
-            with open('{0}/{1}results/index.html'.format(target, dirname), 'a') as fp:
+            with open('{0}/{1}/index.html'.format(target, dirname), 'a') as fp:
                 fp.write(''.join(index))
 
 if __name__ == '__main__':
