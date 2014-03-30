@@ -146,7 +146,7 @@ def process_dir(path, target, module):
         name = plugin.__class__.__name__
 
         # check if the module has already been done
-        file_path = '{0}/{1}results/{1}_{2}.html'.format(target, dirname, module)
+        file_path = '{0}/{1}results/{2}.html'.format(target, dirname, module)
         if not os.path.exists(file_path):
 
             # delete the last two lines of index (\n</body>\n</html>)
@@ -197,7 +197,7 @@ def process_dir(path, target, module):
                 fp.write(''.join(html))
 
             # add a link to the index
-            index.append('\n<br><br><a href="./{0}_{1}.html">{2}</a>'.format(dirname,module, plugin._modulename))
+            index.append('\n<br><a href="./{1}.html">{2}</a>'.format(dirname,module, plugin._modulename))
             index.append('\n</body>\n</html>')
             with open('{0}/{1}results/index.html'.format(target, dirname), 'a') as fp:
                 fp.write(''.join(index))
