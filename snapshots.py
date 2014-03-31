@@ -102,12 +102,15 @@ def process_project(project, path, target, module):
             index.append('<title>Octopi Analysis | {0}</title>'.format(project))
             index.append('\n</head>\n<body>\n<div class="content">')
             index.append('\n<h1>{0}</h1>'.format(project))
+        students= {}
         for student in os.listdir(path):
             studentpath = os.path.join(path, student)
             if os.path.isdir(studentpath):
                 # add link to student folder to index
-                index.append('\n<br><br><a href="{0}/{1}/">{1}</a>'.format(targetproj, student))
-                process_dir(studentpath, targetproj, module)
+                students[student]= '\n<br><a href="./{0}/">{0}</a>'.format(student)
+        for student in sorted(students.iterkeys()):
+            index.append(students[student])
+            process_dir(studentpath, targetproj, module)
         with open('{0}/index.html'.format(targetproj), 'a') as fp:
             fp.write(''.join(index))
 
