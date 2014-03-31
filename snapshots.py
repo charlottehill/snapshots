@@ -108,9 +108,9 @@ def process_project(project, path, target, module):
             if os.path.isdir(studentpath):
                 # add link to student folder to index
                 students[student]= '\n<br><a href="./{0}/">{0}</a>'.format(student)
+                process_dir(studentpath, targetproj, module)
         for student in sorted(students.iterkeys()):
             index.append(students[student])
-            process_dir(studentpath, targetproj, module)
         with open('{0}/index.html'.format(targetproj), 'a') as fp:
             fp.write(''.join(index))
 
