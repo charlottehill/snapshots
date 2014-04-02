@@ -42,24 +42,24 @@ class MovementCheck(SnapshotPlugin):
                                         if "go to" in block.stringify() or "glide to" in block.stringify():
                                             if (initialized == True): #if this is not the first movement block in the script
                                                 if block.args[0] > 0: 
-                                                    results.append("Rooster Initialization: After(Absolute)")
+                                                    results.append("Rooster Initialization: After Race(Absolute)")
                                                 if block.args[0] < 0:
                                                     roosterFinish = True
                                             if (initialized == False): #if this is the first movement block in the script 
                                                 if block.args[0] > 0:
-                                                    results.append("Rooster Initialization Type: Before(Absolute)")
+                                                    results.append("Rooster Initialization Type: Before Race(Absolute)")
                                                 if block.args[0] < 0:
                                                     roosterFinish = True
                                                 initialized = True
                                         if (("glide" in block.stringify() or "move" in block.stringify()) and "to" not in block.stringify()):  
                                             if (initialized == True): 
                                                 if block.args[0] < 0: 
-                                                    results.append("Rooster Initialization Type: After(Relative)" )
+                                                    results.append("Rooster Initialization Type: After Race(Relative)" )
                                                 if block.args[0] > 0: 
                                                     roosterFinish = True
                                             if (initialized == False):
                                                 if block.args[0] < 0:
-                                                    results.append("Rooster Initialization Type: Before(Relative)")
+                                                    results.append("Rooster Initialization Type: Before Race(Relative)")
                                                 if block.args[0] > 0:
                                                     roosterFinish = True
                                                 initialized = True
@@ -76,24 +76,24 @@ class MovementCheck(SnapshotPlugin):
                                         if "go to" in block.stringify() or "glide to" in block.stringify():
                                             if (initialized == True): #if this is not the first movement block in the script
                                                 if block.args[0] > 0: 
-                                                    results.append("Cat Initialization Type: After(Absolute)")
+                                                    results.append("Cat Initialization Type: After Race(Absolute)")
                                                 if block.args[0] < 0:
                                                     catFinish = True
                                             if (initialized == False): #if this is the first movement block in the script 
                                                 if block.args[0] > 0:
-                                                    results.append("Cat Initialization Type: Before(Absolute)")
+                                                    results.append("Cat Initialization Type: Before Race(Absolute)")
                                                 if block.args[0] < 0:
                                                     catFinish = True
                                                 initialized = True
                                         if (("glide" in block.stringify() or "move" in block.stringify()) and "to" not in block.stringify()):  
                                             if (initialized == True): 
                                                 if block.args[0] < 0: 
-                                                    results.append("Cat Initialization Type: After(Relative)")
+                                                    results.append("Cat Initialization Type: After Race(Relative)")
                                                 if block.args[0] > 0: 
                                                     catFinish = True
                                             if (initialized == False):
                                                 if block.args[0] < 0:
-                                                    results.append("Cat Initialization: Before(Relative)")
+                                                    results.append("Cat Initialization: Before Race(Relative)")
                                                 if block.args[0] > 0:
                                                     catFinish = True
                                                 initialized = True
