@@ -28,7 +28,8 @@ class MovementCheck(SnapshotPlugin):
         catMove = []
         roosterFinish = False
         catFinish = False
-        for sprite in scratch.sprites: #sorts out comments
+        for sprite in scratch.sprites:
+            sum = 0
             if "Rooster" == sprite.name:
                 for script in sprite.scripts:
                     if not isinstance(script, kurt.Comment):
@@ -40,29 +41,37 @@ class MovementCheck(SnapshotPlugin):
                                     initialized = False
                                     for block in roosterMove[0].blocks:
                                         if "go to" in block.stringify() or "glide to" in block.stringify():
+                                            sum = block.args[0]
                                             if (initialized == True): #if this is not the first movement block in the script
-                                                if block.args[0] > 0: 
+                                                if sum > 100: #some backward movement
                                                     results.append("Rooster Initialization: After Race(Absolute)")
-                                                if block.args[0] < 0:
+                                                if sum < -150: #some forward movement
                                                     roosterFinish = True
-                                            if (initialized == False): #if this is the first movement block in the script 
-                                                if block.args[0] > 0:
+                                            if (initialized == False): #if this is the first movement block in the script
+                                                if sum > 100:
                                                     results.append("Rooster Initialization Type: Before Race(Absolute)")
-                                                if block.args[0] < 0:
+                                                    initialized = True
+                                                    sum = 0
+                                                if sum < -150:
                                                     roosterFinish = True
-                                                initialized = True
-                                        if (("glide" in block.stringify() or "move" in block.stringify()) and "to" not in block.stringify()):  
+                                                    initialized = True
+                                                    sum = 0
+                                        if (("glide" in block.stringify() or "move" in block.stringify()) and "to" not in block.stringify()):
+                                            sum += block.args[0]
                                             if (initialized == True): 
-                                                if block.args[0] < 0: 
+                                                if sum < -100: 
                                                     results.append("Rooster Initialization Type: After Race(Relative)" )
-                                                if block.args[0] > 0: 
+                                                if sum > 150: 
                                                     roosterFinish = True
                                             if (initialized == False):
-                                                if block.args[0] < 0:
+                                                if sum <-100:
                                                     results.append("Rooster Initialization Type: Before Race(Relative)")
-                                                if block.args[0] > 0:
+                                                    initialized = True
+                                                    sum = 0
+                                                if sum > 150:
                                                     roosterFinish = True
-                                                initialized = True
+                                                    initialized = True
+                                                    sum = 0
             if "Cat" == sprite.name:
                 for script in sprite.scripts:
                     if not isinstance(script, kurt.Comment):
@@ -74,29 +83,37 @@ class MovementCheck(SnapshotPlugin):
                                     initialized = False
                                     for block in catMove[0].blocks:
                                         if "go to" in block.stringify() or "glide to" in block.stringify():
+                                            sum += block.args[0]
                                             if (initialized == True): #if this is not the first movement block in the script
-                                                if block.args[0] > 0: 
+                                                if sum > 100: 
                                                     results.append("Cat Initialization Type: After Race(Absolute)")
-                                                if block.args[0] < 0:
+                                                if sum < -150:
                                                     catFinish = True
                                             if (initialized == False): #if this is the first movement block in the script 
-                                                if block.args[0] > 0:
+                                                if sum > 100:
                                                     results.append("Cat Initialization Type: Before Race(Absolute)")
-                                                if block.args[0] < 0:
+                                                    initialized = True
+                                                    sum = 0
+                                                if sum < -150:
                                                     catFinish = True
-                                                initialized = True
+                                                    initialized = True
+                                                    sum = 0
                                         if (("glide" in block.stringify() or "move" in block.stringify()) and "to" not in block.stringify()):  
+                                            sum += block.args[0]
                                             if (initialized == True): 
-                                                if block.args[0] < 0: 
+                                                if sum < -100 : 
                                                     results.append("Cat Initialization Type: After Race(Relative)")
-                                                if block.args[0] > 0: 
+                                                if sum > 150: 
                                                     catFinish = True
+                                                    sum = 0
                                             if (initialized == False):
-                                                if block.args[0] < 0:
+                                                if sum < -100:
                                                     results.append("Cat Initialization: Before Race(Relative)")
-                                                if block.args[0] > 0:
+                                                    initialized = True
+                                                if sum > 150:
                                                     catFinish = True
-                                                initialized = True
+                                                    sum = 0
+                                                    initialized = True
         if roosterFinish == True:
             results.append("Rooster crosses finish line")
         if catFinish == True:
