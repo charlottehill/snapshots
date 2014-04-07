@@ -81,7 +81,12 @@ class raceInitialization(SnapshotPlugin):
         roosterOrien = False
         roosterSet = False
         catSet = False
+        #checking if they used an relative catSize
+        relativeCatSize = False
 
+        # check distraction:
+        sizeDistraction = False #change size really big or really small
+        
         #for clicked
         catPos2 = False
         catSize2 = False
@@ -96,6 +101,12 @@ class raceInitialization(SnapshotPlugin):
                 if block.type.text == 'set size to %s%%':
                     if block.args[0] == 100:
                         catSize = True
+                    if block.args[0] >= 200 or block.args[0] <= 50:
+                        sizeDistraction = True
+                if block.type.text == 'change size by %s':
+                    relativeCatSize = True
+                    if block.args[0] >= 100 or block.args[0] <= -50:
+                        sizeDistraction = True
                 elif block.type.text == 'go to x:%s y:%s':
                     if block.args[0] >= 145:
                         catPos = True
@@ -116,6 +127,8 @@ class raceInitialization(SnapshotPlugin):
                 if block.type.text == 'set size to %s%%':
                     if block.args[0] == 100:
                         catSize2 = True
+                    if block.args[0] >= 200 or block.args[0] <= 50:
+                        sizeDistraction = True
                 elif block.type.text == 'go to x:%s y:%s':
                     if block.args[0] >= 145:
                         catPos2 = True
@@ -178,7 +191,8 @@ class raceInitialization(SnapshotPlugin):
                     else:
                         roosterSet = True
         return {'Cat': catPos and catSize, 'Rooster': roosterPos and roosterOrien,
-                'CatClicked': catPos2 and catSize2,'RoosterClicked': roosterPos2 and roosterOrien2  }
+                'CatClicked': catPos2 and catSize2,'RoosterClicked': roosterPos2 and roosterOrien2,
+                'Relative Size': relativeCatSize, 'Size Distraction': sizeDistraction}
 
 def initialization_display(results):
     files = results['scripts']
@@ -210,7 +224,7 @@ def display_one_file(sprites):
             negative.append('\nIt looks like you initialized the rooster and the cat after they moved but not when the green flag is clicked.')
     else:
         for name, initialized in sprites.items():
-            if name == 'CatClicked' or name == 'RoosterClicked':
+            if name == 'CatClicked' or name == 'RoosterClicked' or name == 'Relative Size' or name == 'Size Distraction':
                 continue
             if not initialized:
                 negative.append('It looks like you still need to initialize the {0}.'.format(name))
@@ -219,7 +233,11 @@ def display_one_file(sprites):
             else:
                 html.append('<h2 style="background-color:LightGreen">')
                 html.append('Great job initializing the {0}!</h2>'.format(name))
-
+    if sprites['Relative Size']:
+        negative.append('\nIt looks like you used relative instead of absolute sizes\n')
+    if sprites['Size Distraction']:
+        negative.append('\nIt looks like you got distracted and set the size really big or really small\n')
+        
     if len(negative) > 1:
         negative.append('</h2>')
         html.append('<br><h2>If you still have time...</h2>')
