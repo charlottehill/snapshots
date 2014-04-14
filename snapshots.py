@@ -8,6 +8,7 @@ import initCheck
 import spriteSizeCheck
 import raceInitialization2
 import movementCheck
+import mammalStepCheck              
 from optparse import OptionParser
 import kurt
 import sys
@@ -19,7 +20,8 @@ modules = {'scripts': [scripts.Scripts],
            'raceInitialization': [raceInitialization2.raceInitialization],
            'initCheck': [initCheck.InitCheck],
            'spriteSizeCheck':[spriteSizeCheck.SpriteSizeCheck],
-           'movementCheck':[movementCheck.MovementCheck]}
+           'movementCheck':[movementCheck.MovementCheck],
+           'mammalStepCheck':[mammalStepCheck.MammalStepCheck]}
 
 
 # 'ClassName': filename.displayfunction
@@ -28,7 +30,8 @@ htmlwrappers = {'Scripts': scripts.scripts_display,
                 'raceInitialization':raceInitialization2.initialization_display,
                 'InitCheck': initCheck.check_display,
                 'SpriteSizeCheck': spriteSizeCheck.size_display,
-                'MovementCheck': movementCheck.movementCheck_display}
+                'MovementCheck': movementCheck.movementCheck_display,
+                'MammalStepCheck':mammalStepCheck.check_display}
 
 def main():
     parser = OptionParser(usage='%prog MODULE [options] DIRECTORY TARGET')
